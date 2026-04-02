@@ -2,17 +2,20 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from models.caption_model import build_caption_model
+from models.feature_extractor import build_feature_extractor
 from utils.data_preprocessing import prepare_data
 from utils.data_generator import CustomDataGenerator
 from analysis_exploring import plot_learning_curve
 import pickle
 
 def train_model():
-    image_path = 'flickr8k/Images'
-    data_path = 'flickr8k/captions.txt'
-    
-    train, test, tokenizer, vocab_size, max_length, features, feature_extractor = prepare_data(data_path, image_path)
-    
+    image_path = 'data/flickr8k/Images'
+    data_path = 'data/flickr8k/captions.txt'
+
+    feature_extractor = build_feature_extractor()
+
+    train, test, tokenizer, vocab_size, max_length, features = prepare_data(data_path, image_path, feature_extractor)
+
     train_generator = CustomDataGenerator(
         df=train, X_col='image', y_col='caption', batch_size=64, directory=image_path,
         tokenizer=tokenizer, vocab_size=vocab_size, max_length=max_length, features=features
@@ -21,9 +24,9 @@ def train_model():
         df=test, X_col='image', y_col='caption', batch_size=64, directory=image_path,
         tokenizer=tokenizer, vocab_size=vocab_size, max_length=max_length, features=features
     )
-    
+
     caption_model = build_caption_model(vocab_size, max_length)
-    
+
     checkpoint = ModelCheckpoint(
         "model.keras",
         monitor="val_loss",
@@ -34,18 +37,18 @@ def train_model():
     )
     earlystopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=5, verbose=1, restore_best_weights=True)
     learning_rate_reduction = ReduceLROnPlateau(monitor='val_loss', patience=3, verbose=1, factor=0.2, min_lr=0.00000001)
-    
+
     history = caption_model.fit(
         train_generator, epochs=50, validation_data=validation_generator,
         callbacks=[checkpoint, earlystopping, learning_rate_reduction]
     )
-    
+
     with open("tokenizer.pkl", "wb") as f:
         pickle.dump(tokenizer, f)
     feature_extractor.save("feature_extractor.keras")
-    
+
     plot_learning_curve(history)
-    
+
     return history
 
 if __name__ == "__main__":

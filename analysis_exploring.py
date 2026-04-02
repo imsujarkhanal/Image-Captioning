@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from textwrap import wrap
 import pandas as pd
-from utils.data_preprocessing import readImage
+from utils.data_preprocessing import read_image
 
 
 def display_images(temp_df, image_path):
@@ -13,7 +13,7 @@ def display_images(temp_df, image_path):
         n += 1
         plt.subplot(5, 5, n)
         plt.subplots_adjust(hspace=0.9, wspace=0.5)
-        image = readImage(f"{image_path}/{temp_df.image[i]}")
+        image = read_image(f"{image_path}/{temp_df.image[i]}")
         plt.imshow(image)
         plt.title("\n".join(wrap(temp_df.caption[i], 20)))
         plt.axis("off")
@@ -34,6 +34,6 @@ def explore_data(data_path, image_path):
     display_images(data.sample(15), image_path)
 
 if __name__ == "__main__":
-    data_path = 'flickr8k/captions.txt'
-    image_path = 'flickr8k/images'
+    data_path = 'data/flickr8k/captions.txt'
+    image_path = 'data/flickr8k/Images'
     explore_data(data_path, image_path)
