@@ -1,75 +1,44 @@
-# Image Captioning Project
+# Image Captioning
 
-This project implements an image captioning model using a CNN (DenseNet201) for feature extraction and an LSTM for caption generation, with a Streamlit app for user interaction.
+## Overview
+This project focuses on generating descriptive captions for images using deep learning methods. The primary goal is to enable machines to understand and describe the content of images in human language.
 
-![dog](https://github.com/user-attachments/assets/462a6cd4-ac88-47ec-9d4f-6cac47477f7c)
+## Features
+- **Image Understanding:** Utilizes convolutional neural networks (CNN) to extract features from images.
+- **Caption Generation:** Employs recurrent neural networks (RNN) for generating natural language captions.
+- **Evaluation Metrics:** Implements BLEU and METEOR scores for caption evaluation.
 
-## Setup
-
-1. **Clone the repository**
-
+## Installation
+To set up the project, follow these steps:
+1. Clone the repository:
    ```bash
-   git clone <repository_url>
-   cd image_captioning_project
-   ````
-
-2. **Create and activate a virtual environment** (optional but recommended)
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   git clone https://github.com/imsujarkhanal/Image-Captioning.git
    ```
-
-3. **Install dependencies**
-
+2. Navigate into the project directory:
+   ```bash
+   cd Image-Captioning
+   ```
+3. Install the necessary dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Download the Flickr8k dataset** and place it in the `data/flickr8k/` directory.
-
-## Data Exploration
-
-Before training, explore the dataset to visualize sample images and captions:
-
+## Usage
+To use the model for captioning images, run the following command:
 ```bash
-python analysis_exploring.py
+python caption.py --image <path_to_image>
 ```
+Replace `<path_to_image>` with the path to the image you want to caption.
 
-## Training
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
-Train the model and plot the learning curve:
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-```bash
-python train.py
-```
+## Acknowledgments
+- Special thanks to the developers of TensorFlow and Keras for providing powerful libraries to build deep learning models.
+- Inspiration and support from the academic community in the field of AI and image processing.
 
-## Running the Streamlit App
-
-Launch the Streamlit app to generate captions in real-time:
-
-```bash
-streamlit run app.py
-```
-
-## Project Structure
-
-- **models**: Contains model definitions for feature extraction and captioning
-- **utils**: Utility functions for data preprocessing,caption generator, data generation, and file utilities
-- **data**: Directory for the Flickr8k dataset (not included in the repository)
-- **app.py**: Streamlit application for generating captions
-- **train.py**: Script to train the model and plot the learning curve
-- **analysis_exploring.py**: Script to explore the dataset and visualize data
-- **requirements.txt**: Project dependencies
-
-## Model Choice 
-
-* **DenseNet201 for Feature Extraction**: DenseNet201 captures hierarchical feature representations through dense blocks, producing robust 1920-dimensional image embeddings.
-* **LSTM for Caption Generation**: LSTM networks effectively model sequential dependencies, enabling coherent word-by-word caption generation based on image embeddings and prior context.
-
-## Notes
-
-* Ensure dataset paths in `train.py`, `app.py`, and `analysis_exploring.py` match your local directory structure.
-* Link of [Dataset](https://www.kaggle.com/datasets/adityajn105/flickr8k) I used .Sometimes the dataset used are compatible with particular model.
-* You can extend this to larger datasets like Flickr30k or MS-COCO for improved performance and check the accuracy .
-* Consider using GPU acceleration for faster training.
+---
+For any inquiries or suggestions, feel free to contact [imsujarkhanal](https://github.com/imsujarkhanal).
